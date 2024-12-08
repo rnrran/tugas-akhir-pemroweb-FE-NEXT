@@ -1,16 +1,18 @@
 'use client'
-
-import { useState, useEffect } from 'react';
-import Swal from 'sweetalert2';  // Import SweetAlert2
-
+import {AuthContext} from '../../context/AuthContext'
+import { useState, useEffect, useContext } from 'react';
+import Swal from 'sweetalert2';  
 const WriteBlog = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [description, setDescription] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [categories, setCategories] = useState([]); // Menyimpan kategori
+  const [categories, setCategories] = useState([]); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { userData } = useContext(AuthContext);
+  // console.log(userData.id,"curr")
+
 
   // Ambil kategori dari API
   useEffect(() => {
@@ -18,7 +20,7 @@ const WriteBlog = () => {
       try {
         const response = await fetch('http://localhost:8000/api/categories');
         const data = await response.json();
-        setCategories(data); // Simpan kategori ke dalam state
+        setCategories(data); 
       } catch (error) {
         console.error('Error fetching categories:', error);
         setError('Failed to fetch categories');
@@ -34,7 +36,7 @@ const WriteBlog = () => {
     setLoading(true);
     setError('');
 
-    const userToken = localStorage.getItem('user_token');  // Token dari localStorage
+    const userToken = localStorage.getItem('user_token');  
 
     if (!userToken) {
       setError('Please log in first');
@@ -42,13 +44,11 @@ const WriteBlog = () => {
       return;
     }
 
-    const userId = 1; // Gantilah dengan ID pengguna yang aktif
-
     const blogData = {
       title,
       content,
       description,
-      user_id: userId,
+      user_id: userData?.id,
       category_id: categoryId,  // Kirim category_id
     };
 
