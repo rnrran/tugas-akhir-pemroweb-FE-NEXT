@@ -36,8 +36,14 @@ const WriteBlog = () => {
     setLoading(true);
     setError('');
 
-    const userToken = localStorage.getItem('user_token');  
+    // Validasi: pastikan semua field diisi
+    if (!title || !content || !description || !categoryId) {
+      setError('All fields are required.');
+      setLoading(false);
+      return;
+    }
 
+    const userToken = localStorage.getItem('user_token');
     if (!userToken) {
       setError('Please log in first');
       setLoading(false);
@@ -49,56 +55,59 @@ const WriteBlog = () => {
       content,
       description,
       user_id: userData?.id,
-      category_id: categoryId,  
+      category_id: categoryId,
     };
 
-    const result = await Swal.fire({
-      title: 'oke ?',
-      text: "Publish ?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Ya, publish!',
-      cancelButtonText: 'Batal',
-    });
-
-    if (result.isConfirmed) {
     try {
-      const response = await fetch('http://localhost:8000/api/blogs', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${userToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(blogData),
+      const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to submit your blog?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, submit it!',
+        cancelButtonText: 'No, cancel!',
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        // Menampilkan konfirmasi menggunakan SweetAlert
-        await Swal.fire({
-          title: 'Blog Created!',
-          text: 'berhasil publish.',
-          icon: 'success',
-          confirmButtonText: 'OK',
+      if (result.isConfirmed) {
+        const response = await fetch('http://localhost:8000/api/blogs', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${userToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(blogData),
         });
 
-        // Reset form setelah berhasil menulis
-        setTitle('');
-        setContent('');
-        setDescription('');
-        setCategoryId('');
-      } else {
-        setError(data.message || 'Failed to create blog');
-        // alert('ada yang belum terisi !')
+        const data = await response.json();
+
+        if (response.ok) {
+          setTitle('');
+          setContent('');
+          setDescription('');
+          setCategoryId('');
+          Swal.fire({
+            title: 'Success!',
+            text: 'Your blog has been submitted.',
+            icon: 'success',
+          });
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: data.message || 'Failed to submit blog.',
+            icon: 'error',
+          });
+        }
       }
     } catch (error) {
-      // console.error('Error:', error);
-      setError('An error occurred while creating the blog.');
+      console.error('Error submitting blog:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Something went wrong. Please try again later.',
+        icon: 'error',
+      });
     } finally {
       setLoading(false);
     }
-  }
   };
 
   return (
@@ -127,7 +136,7 @@ const WriteBlog = () => {
 
         {/* Content */}
         <div>
-          <label htmlFor="content" className="block text-sm font-semibold text-gray-600">Content</label>
+          <label htmlFor="content" className="block text-sm font-semibold text-gray-600">Content &#40;markdown&#41;	</label>
           <textarea
             id="content"
             value={content}

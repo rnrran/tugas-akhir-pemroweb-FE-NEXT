@@ -113,6 +113,8 @@ const EditBlog = ({ params }) => {
     } finally {
       setLoading(false);
     }
+  } else {
+    setLoading(false); 
   }
   };
 
