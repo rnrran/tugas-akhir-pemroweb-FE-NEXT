@@ -78,7 +78,7 @@ const WriteBlog = () => {
         // Menampilkan konfirmasi menggunakan SweetAlert
         await Swal.fire({
           title: 'Blog Created!',
-          text: 'berhasil apdet.',
+          text: 'berhasil publish.',
           icon: 'success',
           confirmButtonText: 'OK',
         });

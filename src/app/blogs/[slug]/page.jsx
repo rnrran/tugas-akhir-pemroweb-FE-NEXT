@@ -1,6 +1,11 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm' 
+import remarkHtml from 'remark-html' 
+import rehypeRaw from 'rehype-raw' // Untuk mengizinkan tag HTML seperti <br />
+
 
 const BlogPage = ({ params }) => {
   const { slug } = React.use(params) 
@@ -51,18 +56,18 @@ const BlogPage = ({ params }) => {
       })
       const data = await response.json()
 
-      // Menambahkan komentar ke daftar komentar setelah berhasil
       if (response.ok) {
         setBlog((prevBlog) => ({
           ...prevBlog,
           comments: [...prevBlog.comments, data],
         }))
-        setNewComment('')  // Reset input komentar
+        setNewComment('')  
       }
     } catch (error) {
       console.error('Error submitting comment:', error)
     }
   }
+  console.log('blog', blog?.user?.name)
 
   // Cek status login pengguna (dummy untuk sementara)
   useEffect(() => {
@@ -74,15 +79,26 @@ const BlogPage = ({ params }) => {
       {/* Menampilkan Blog */}
       {blog ? (
         <div className="bg-white shadow-md rounded-lg p-6">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">{blog.title}</h1>
-          <div className="text-gray-600 mb-2">
-            <span>{blog.category?.name}</span> •
-            <span>{new Date(blog.created_at).toLocaleDateString()}</span>
+          <div className="text-gray-600 mb-2 text-sm pl-2">
+            <span className='pr-1'>{blog.category?.name}</span>
+            <span className='pr-2'>{new Date(blog.created_at).toLocaleDateString()}</span>
+            - 
+            <span className='pl-2'>Written by {blog?.user?.name} </span>
           </div>
-          <div
+          <h1 className="text-9xl font-thin font-serif text-gray-800 mb-4">{blog.title}</h1>
+          <div className='font-light font-sans my-5 mb-3 pl-2 italic'>
+            "{blog?.description}"
+          </div>
+          <ReactMarkdown 
+            className={'pl-2 font-light font-sans mt-5'}
+            children={blog.content} 
+            remarkPlugins={[remarkGfm, remarkHtml]} 
+            rehypePlugins={[rehypeRaw]} 
+          />
+          {/* <div
             dangerouslySetInnerHTML={{ __html: blog.content }}
             className="text-gray-800 leading-7"
-          ></div>
+          ></div> */}
         </div>
       ) : (
         <div className="text-center text-gray-500">
