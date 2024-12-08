@@ -42,7 +42,7 @@ const Header = () => {
         <div className="flex items-center space-x-6">
           {/* Menu Navigasi untuk Web */}
           <div className="hidden md:flex items-center space-x-6">
-            <a href={'/'}>
+            <a href={'/'} className='ml-10 '>
               <span className="text-gray-900 hover:text-gray-600 hover:border-b-2 border-gray-300 sm:ml-12">All Reviews</span>
             </a>
             
