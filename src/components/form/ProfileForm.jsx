@@ -1,13 +1,13 @@
 'use client'
 
 import { useState, useContext, useEffect } from 'react';
-import { AuthContext } from '../../context/AuthContext';  
+import { AuthContext } from '../../context/AuthContext';
+import Swal from 'sweetalert2';  
 
-const ProfileForm = ( {currentUser} ) => {
-  // Ambil data user dan token dari AuthContext
+const ProfileForm = ({ currentUser }) => {
   const { userData } = useContext(AuthContext);
-  const userToken = currentUser?.token
-//   console.log(userToken, "current")
+  const userToken = currentUser?.token;
+  
   const [name, setName] = useState(userData?.name || '');  
   const [email, setEmail] = useState(userData?.email || '');  
   const [password, setPassword] = useState('');
@@ -42,31 +42,51 @@ const ProfileForm = ( {currentUser} ) => {
       updatedData.password_confirmation = passwordConfirmation;
     }
 
-    try {
-      const response = await fetch('http://localhost:8000/api/user', {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${userToken}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedData),
-      });
+    // Konfirmasi sebelum melanjutkan
+    const result = await Swal.fire({
+      title: 'oke ?',
+      text: "Data profil Anda akan diperbarui!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, update!',
+      cancelButtonText: 'Batal',
+    });
 
-      const data = await response.json();
+    if (result.isConfirmed) {
+      // Jika konfirmasi diterima, lakukan permintaan API
+      try {
+        const response = await fetch('http://localhost:8000/api/user', {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${userToken}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedData),
+        });
 
-      if (response.ok) {
-        alert('Profile updated successfully');
-        location.reload();
+        const data = await response.json();
 
-      } else {
-        setError(data.message || 'Failed to update profile');
+        if (response.ok) {
+          await Swal.fire('Berhasil', 'Profil Anda telah diperbarui.', 'success');
+
+          // Reset form setelah berhasil update
+          setName(userData?.name || '');  
+          setEmail(userData?.email || '');  
+          setPassword('');
+          setPasswordConfirmation('');
+
+        } else {
+          setError(data.message || 'Gagal memperbarui profil');
+        }
+      } catch (error) {
+        console.error('Error updating profile:', error);
+        setError('Terjadi kesalahan saat memperbarui profil.');
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      setError('An error occurred while updating your profile.');
-    } finally {
-      setLoading(false);
+    } else {
+      setLoading(false); 
     }
   };
 

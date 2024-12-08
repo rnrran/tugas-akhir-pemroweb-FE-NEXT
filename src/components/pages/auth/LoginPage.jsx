@@ -5,9 +5,11 @@ import { useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { AuthContext } from '../../../context/AuthContext';
+import Swal from 'sweetalert2'; 
+
 
 const LoginPage = () => {
-  const { dispatch } = useContext(AuthContext);  // Memastikan penggunaan dispatch yang benar
+  const { dispatch } = useContext(AuthContext);  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -37,6 +39,15 @@ const LoginPage = () => {
           type: 'LOGIN',
           payload: { token: data.token },  // Pastikan payload yang benar dikirim
         });
+
+        await Swal.fire({
+          title: 'holaa',
+          text: 'berhasil login.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+
+
         router.push('/');
       } else {
         setError(data.message || 'Login failed');

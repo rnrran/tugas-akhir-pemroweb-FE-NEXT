@@ -1,5 +1,5 @@
 'use client'
-
+import Swal from 'sweetalert2';  
 import Link from 'next/link';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext' 
@@ -11,34 +11,56 @@ const SideBar = ({ toggleMenu }) => {
 
   // Fungsi untuk logout
   const handleLogout = async () => {
-    try {
-      // Mengambil token dari localStorage atau dari state
-      const token = localStorage.getItem('user_token') || state.userToken;
-  
-      // Melakukan request POST ke API logout
-      const response = await fetch('http://localhost:8000/api/logout', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/json',
-        },
+    const result = await Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Anda akan keluar dari akun ini.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, keluar!',
+        cancelButtonText: 'Batal',
       });
-  
-      if (response.ok) {
-        // Jika logout berhasil, dispatch LOGOUT dan redirect ke halaman login
-        dispatch({ type: 'LOGOUT' });
-        localStorage.removeItem('user');
-        localStorage.removeItem('user_token');
-        window.location.href = '/'; 
+
+      if (result.isConfirmed) {
+        try {
+          // Mengambil token dari localStorage atau dari state
+          const token = localStorage.getItem('user_token') || state.userToken;
+      
+          // Melakukan request POST ke API logout
+          const response = await fetch('http://localhost:8000/api/logout', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+            },
+          });
+      
+          if (response.ok) {
+            // Jika logout berhasil, dispatch LOGOUT dan redirect ke halaman login
+            dispatch({ type: 'LOGOUT' });
+            localStorage.removeItem('user');
+            localStorage.removeItem('user_token');
+
+            await Swal.fire({
+                title: 'logout sukses!',
+                text: 'dadah.',
+                icon: 'success',
+                confirmButtonText: 'OK',
+              });
+
+            window.location.href = '/'; // Redirect ke halaman utama atau login
+          } else {
+            // Jika terjadi error saat logout, tampilkan pesan error
+            const errorData = await response.json();
+            console.error('Logout failed:', errorData.message);
+          }
+        } catch (error) {
+          console.error('Error during logout:', error);
+        }
       } else {
-        // Jika terjadi error saat logout, tampilkan pesan error
-        const errorData = await response.json();
-        console.error('Logout failed:', errorData.message);
+        // Jika pembatalan logout, tidak melakukan apa-apa
+        console.log('Logout dibatalkan');
       }
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-  };
+    };
   
 
   return (
