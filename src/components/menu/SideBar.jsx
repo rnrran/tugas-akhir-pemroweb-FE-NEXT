@@ -8,34 +8,10 @@ const SideBar = ({ toggleMenu }) => {
   const { currentUser, dispatch } = useContext(AuthContext);
 
   // Fungsi untuk logout
-  const handleLogout = async () => {
-  try {
-    // Mengambil token dari localStorage atau dari state
-    const token = localStorage.getItem('user_token') || state.userToken;
-
-    // Melakukan request POST ke API logout
-    const response = await fetch('http://localhost:8000/api/logout', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-      },
-    });
-
-    if (response.ok) {
-      dispatch({ type: 'LOGOUT' });
-      localStorage.removeItem('user');
-      localStorage.removeItem('user_token');
-      window.location.href = '/login'; 
-    } else {
-      const errorData = await response.json();
-      console.error('Logout failed:', errorData.message);
-    }
-  } catch (error) {
-    console.error('Error during logout:', error);
-  }
-};
-
+  const handleLogout = () => {
+    dispatch({ type: 'LOGOUT' }); 
+    window.location.href = '/login';
+  };
 
   return (
     <>
