@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext' 
+import { useRouter } from 'next/navigation';
 
 const SideBar = ({ toggleMenu }) => {
   const { currentUser, dispatch } = useContext(AuthContext);
+  const { push } = useRouter()
 
   // Fungsi untuk logout
   const handleLogout = async () => {
@@ -27,7 +29,7 @@ const SideBar = ({ toggleMenu }) => {
         dispatch({ type: 'LOGOUT' });
         localStorage.removeItem('user');
         localStorage.removeItem('user_token');
-         window.location.href = '/login'; // Arahkan ke halaman login
+        window.location.href = '/'; 
       } else {
         // Jika terjadi error saat logout, tampilkan pesan error
         const errorData = await response.json();

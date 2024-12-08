@@ -7,7 +7,7 @@ const ProfileForm = ( {currentUser} ) => {
   // Ambil data user dan token dari AuthContext
   const { userData } = useContext(AuthContext);
   const userToken = currentUser?.token
-  console.log(userToken, "current")
+//   console.log(userToken, "current")
   const [name, setName] = useState(userData?.name || '');  
   const [email, setEmail] = useState(userData?.email || '');  
   const [password, setPassword] = useState('');

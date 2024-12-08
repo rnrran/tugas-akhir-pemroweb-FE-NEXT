@@ -17,20 +17,20 @@ export default function RootLayout({ children }) {
 function InnerLayout({ children }) {
   const path = usePathname();
   const { push } = useRouter();
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, userData } = useContext(AuthContext);
 
   const isAuthenticated = currentUser ? true : false;
+  // console.log(userData, "budi")
 
+  // path restriction
   useEffect(() => {
-    // Jika sudah login, alihkan dari /login atau /register
     if (isAuthenticated && (path === '/login' || path === '/register')) {
-      push('/'); // Arahkan ke halaman utama jika sudah login
+      push('/');
     }
-
-    // // Jika belum login, alihkan ke /login
-    // if (!isAuthenticated && (path !== '/login' && path !== '/register')) {
-    //   push('/login'); // Arahkan ke halaman login jika belum login
-    // }
+    // Jika belum login, alihkan ke /login
+    if (!isAuthenticated && path == '/profile') {
+      push('/');
+    }
   }, [isAuthenticated, path, push]);
 
   return (

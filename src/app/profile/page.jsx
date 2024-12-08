@@ -11,11 +11,11 @@ const ProfilePage = () => {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  useEffect(() => {
-    if (!currentUser) {
-      router.push('/login');  // Redirect jika user belum login
-    }
-  }, [currentUser, router]);
+//   useEffect(() => {
+//     if (!currentUser) {
+//       router.push('/login');  // Redirect jika user belum login
+//     }
+//   }, [currentUser, router]);
 
   return (
     <div className="container mx-auto p-6">

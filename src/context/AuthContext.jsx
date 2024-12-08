@@ -16,7 +16,7 @@ export const AuthContextProvider = ({ children }) => {
 
   // Memantau perubahan state.currentUser dan state.userToken
   useEffect(() => {
-    console.log('State changed:', state);
+    // console.log('State changed:', state);
 
     if (state.currentUser) {
     //   console.log('Saving currentUser to localStorage:', state.currentUser);
@@ -27,10 +27,10 @@ export const AuthContextProvider = ({ children }) => {
     }
 
     if (state.userToken) {
-      console.log('Saving userToken to localStorage:', state.userToken);
+    //   console.log('Saving userToken to localStorage:', state.userToken);
       localStorage.setItem('user_token', state.userToken);
     } else {
-      console.log('Removing userToken from localStorage');
+    //   console.log('Removing userToken from localStorage');
       localStorage.removeItem('user_token');
     }
   }, [state.currentUser, state.userToken]);
