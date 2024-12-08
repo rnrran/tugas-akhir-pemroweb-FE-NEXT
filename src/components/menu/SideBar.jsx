@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext' 
 import { useRouter } from 'next/navigation';
+import { useMode } from '../../context/ModeContext'; 
 
 const SideBar = ({ toggleMenu }) => {
   const { currentUser, dispatch } = useContext(AuthContext);
   const { push } = useRouter()
+  const { isEditMode, toggleEditMode } = useMode(); 
 
   // Fungsi untuk logout
   const handleLogout = async () => {
@@ -183,6 +185,13 @@ const SideBar = ({ toggleMenu }) => {
             </table>
             {currentUser ? (
             <>
+                {/* Tombol untuk toggle edit mode */}
+                <button
+                onClick={toggleEditMode}
+                className={`w-full text-white px-3 py-2 rounded-md my-2 text-xs mt-10 ${isEditMode ? 'bg-red-500 hover:bg-red-700' : 'bg-yellow-400 hover:bg-yellow-600'}`}
+                >
+                        {isEditMode ? 'Exit Edit Mode' : 'Enter Edit Mode'}
+                      </button>
               <Link href="/profile">
                 <button className="w-full bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 my-2 text-xs">
                   Profile

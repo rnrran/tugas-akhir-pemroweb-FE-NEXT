@@ -5,12 +5,15 @@ import Header from '../components/Header';
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { AuthContext, AuthContextProvider } from '../context/AuthContext';
+import { ModeProvider } from '../context/ModeContext';
 
 export default function RootLayout({ children }) {
   return (
-    <AuthContextProvider>
-      <InnerLayout>{children}</InnerLayout>
-    </AuthContextProvider>
+    <ModeProvider>
+      <AuthContextProvider>
+        <InnerLayout>{children}</InnerLayout>
+      </AuthContextProvider>
+    </ModeProvider>
   );
 }
 
