@@ -117,7 +117,7 @@ const BlogPage = ({ params, content }) => {
             "{blog?.description}"
           </div>
           <ReactMarkdown 
-            className={'pl-2 font-light font-sans mt-5'}
+            className={'pl-2 font-light font-sans mt-5 container mx-auto'}
             children={blog.content} 
             remarkPlugins={[remarkGfm, remarkHtml]} 
             rehypePlugins={[rehypeRaw]} 
