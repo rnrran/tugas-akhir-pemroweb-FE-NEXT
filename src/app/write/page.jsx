@@ -80,9 +80,10 @@ const WriteBlog = () => {
         setCategoryId('');
       } else {
         setError(data.message || 'Failed to create blog');
+        // alert('ada yang belum terisi !')
       }
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
       setError('An error occurred while creating the blog.');
     } finally {
       setLoading(false);
