@@ -134,18 +134,18 @@ const SideBar = ({ toggleMenu }) => {
             {currentUser ? (
             <>
               <Link href="/profile">
-                <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 my-3">
+                <button className="w-full bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 my-2 text-xs">
                   Profile
                 </button>
               </Link>
               <Link href="/write">
-                <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 my-3">
-                  Write
+                <button className="w-full bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 my-2 text-xs">
+                  Tulis
                 </button>
               </Link>
               <button
                 onClick={handleLogout}
-                className="w-full bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 my-3"
+                className="w-full bg-red-600 text-white px-3 py-2 rounded-md hover:bg-red-700 my-2 text-xs"
               >
                 Logout
               </button>
@@ -153,12 +153,12 @@ const SideBar = ({ toggleMenu }) => {
           ) : (
             <>
               <Link href="/login">
-                <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 my-3">
+                <button className="w-full bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 my-2 text-xs">
                   Login
                 </button>
               </Link>
               <Link href="/register">
-                <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                <button className="w-full bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 text-xs">
                   Daftar
                 </button>
               </Link>
