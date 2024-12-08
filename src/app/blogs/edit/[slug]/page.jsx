@@ -66,6 +66,17 @@ const EditBlog = ({ params }) => {
       description,
     };
 
+    const result = await Swal.fire({
+      title: 'oke ?',
+      text: "perbarui tulisan kakmu ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, update!',
+      cancelButtonText: 'Batal',
+    });
+
+
+    if (result.isConfirmed) {
     try {
       const res = await fetch(`http://localhost:8000/api/blogs/${blog.id}`, {
         method: 'PUT',
@@ -102,6 +113,7 @@ const EditBlog = ({ params }) => {
     } finally {
       setLoading(false);
     }
+  }
   };
 
   if (!blog) {
@@ -109,46 +121,46 @@ const EditBlog = ({ params }) => {
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Edit Blog</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="container mx-auto p-6 mt-10 border-2 border-gray-200 shadow-xl">
+      <h1 className="text-5xl font-serif text-center font-bold mb-3">Edit Blog</h1>
+      <form onSubmit={handleSubmit} className='space-y-6'>
         <div className="mb-4">
-          <label htmlFor="title" className="block text-gray-700">Title</label>
+          <label htmlFor="title" className="block text-sm font-semibold text-gray-600">Title</label>
           <input
             type="text"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="content" className="block text-gray-700">Content</label>
+          <label htmlFor="content" className="block text-sm font-semibold text-gray-600">Content</label>
           <textarea
             id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="description" className="block text-gray-700">Description</label>
+          <label htmlFor="description" className="block text-sm font-semibold text-gray-600">Description</label>
           <textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="category" className="block text-gray-700">Category</label>
+          <label htmlFor="category" className="block text-sm font-semibold text-gray-600">Category</label>
           <select
             id="category"
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           >
             <option value="">Select Category</option>

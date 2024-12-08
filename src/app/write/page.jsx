@@ -49,9 +49,19 @@ const WriteBlog = () => {
       content,
       description,
       user_id: userData?.id,
-      category_id: categoryId,  // Kirim category_id
+      category_id: categoryId,  
     };
 
+    const result = await Swal.fire({
+      title: 'oke ?',
+      text: "Publish ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, publish!',
+      cancelButtonText: 'Batal',
+    });
+
+    if (result.isConfirmed) {
     try {
       const response = await fetch('http://localhost:8000/api/blogs', {
         method: 'POST',
@@ -68,7 +78,7 @@ const WriteBlog = () => {
         // Menampilkan konfirmasi menggunakan SweetAlert
         await Swal.fire({
           title: 'Blog Created!',
-          text: 'Your blog has been created successfully.',
+          text: 'berhasil apdet.',
           icon: 'success',
           confirmButtonText: 'OK',
         });
@@ -88,6 +98,7 @@ const WriteBlog = () => {
     } finally {
       setLoading(false);
     }
+  }
   };
 
   return (
@@ -160,7 +171,7 @@ const WriteBlog = () => {
         <div>
           <button
             type="submit"
-            className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md"
+            className="w-full py-3 bg-blue-600 text-white rounded-md"
             disabled={loading}
           >
             {loading ? 'Submitting...' : 'Submit Blog'}
