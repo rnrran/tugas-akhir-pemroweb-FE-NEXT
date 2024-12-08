@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 const BlogPage = ({ params }) => {
-  const { slug } = React.use(params) // Unwrap params
+  const { slug } = React.use(params) 
   const [blog, setBlog] = useState(null)
   const [previousBlogSlug, setPreviousBlogSlug] = useState(null)
   const [nextBlogSlug, setNextBlogSlug] = useState(null)

@@ -1,6 +1,9 @@
 'use client'
 import { useEffect, useState } from 'react';
 import Link from 'next/link'; 
+import { useMode } from '../../context/ModeContext';
+import Swal from 'sweetalert2';
+
 
 const BlogsList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -9,6 +12,7 @@ const BlogsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const [totalPages, setTotalPages] = useState(0);
+  const { isEditMode, toggleEditMode } = useMode();  
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -66,6 +70,51 @@ const BlogsList = () => {
     window.history.replaceState(null, '', `?${queryParams.toString()}`);
   };
 
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Blog ini akan dihapus!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Batal',
+    });
+
+    if (result.isConfirmed) {
+        try {
+          const response = await fetch(`http://localhost:8000/api/blogs/${id}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('user_token')}`,
+              'Accept': 'application/json',
+            },
+          });
+  
+          if (response.ok) {
+            Swal.fire({
+              title: 'Dihapus!',
+              text: 'Blog telah berhasil dihapus.',
+              icon: 'success',
+            });
+            setBlogs(blogs.filter(blog => blog.id !== id));
+          } else {
+            Swal.fire({
+              title: 'Gagal!',
+              text: 'Terjadi kesalahan saat menghapus blog.',
+              icon: 'error',
+            });
+          }
+        } catch (error) {
+          console.error('Error deleting blog:', error);
+          Swal.fire({
+            title: 'Gagal!',
+            text: 'Terjadi kesalahan.',
+            icon: 'error',
+          });
+        }
+      }
+    };
+
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-5xl underline font-thin font-serif text-center my-8">Blog List</h1>
@@ -110,6 +159,22 @@ const BlogsList = () => {
                     <span className="text-blue-500 font-mono text-md underline">Read More</span>
                   </Link>
                 </div>
+                {isEditMode && (
+                    <div className="mt-4 flex space-x-2">
+                        <Link
+                        href={`/blogs/edit/${blog.id}`}
+                        className="bg-yellow-400 text-white px-3 py-1 rounded"
+                        >
+                        Edit
+                        </Link>
+                        <button
+                        onClick={() => handleDelete(blog.id)}
+                        className="bg-red-500 text-white px-3 py-1 rounded"
+                        >
+                        Delete
+                        </button>
+                    </div>
+                )}
               </div>
             </div>
           ))}

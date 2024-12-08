@@ -1,0 +1,174 @@
+'use client'
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2'; 
+
+const EditBlog = ({ params }) => {
+  const { slug } = React.use(params) 
+  const [blog, setBlog] = useState(null);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [categoryId, setCategoryId] = useState('');
+  const [description, setDescription] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  // const [blogID, setBlogID] = useState('');
+  const router = useRouter();
+
+  // Fetch blog data based on slug
+  useEffect(() => {
+    if (slug) {
+      fetchBlogData(slug);
+    }
+  }, [slug]);
+
+  const fetchBlogData = async (slug) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/blogs/${slug}`)
+      const data = await res.json();
+      // console.log("data", data?.id)
+      
+      setBlog(data);
+      // setBlogID(data?.id);
+      setTitle(data.title);
+      setContent(data.content);
+      setCategoryId(data.category_id);
+      setDescription(data.description);
+    } catch (error) {
+      console.error('Error fetching blog data:', error);
+    }
+  };
+
+  // Fetch categories for dropdown
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/api/categories');
+        const data = await res.json();
+        setCategories(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Handle form submission to update blog
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const updatedBlog = {
+      title,
+      content,
+      category_id: categoryId,
+      description,
+    };
+
+    try {
+      const res = await fetch(`http://localhost:8000/api/blogs/${blog.id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('user_token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedBlog),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        await Swal.fire({
+          title: 'Blog Updated!',
+          text: 'Your blog has been updated successfully.',
+          icon: 'success',
+        });
+        router.push(`/blogs/${data?.id}`);
+      } else {
+        Swal.fire({
+          title: 'Error',
+          text: data.message || 'Failed to update blog.',
+          icon: 'error',
+        });
+      }
+    } catch (error) {
+      console.error('Error updating blog:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Something went wrong while updating the blog.',
+        icon: 'error',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!blog) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="container mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4">Edit Blog</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-gray-700">Title</label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded mt-1"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="content" className="block text-gray-700">Content</label>
+          <textarea
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded mt-1"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="description" className="block text-gray-700">Description</label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded mt-1"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="category" className="block text-gray-700">Category</label>
+          <select
+            id="category"
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded mt-1"
+            required
+          >
+            <option value="">Select Category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded mt-4"
+          disabled={loading}
+        >
+          {loading ? 'Updating...' : 'Update Blog'}
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default EditBlog;
