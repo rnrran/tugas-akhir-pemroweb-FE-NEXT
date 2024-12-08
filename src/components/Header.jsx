@@ -2,9 +2,12 @@
 // components/Header.js
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import SideBar from '../components/menu/SideBar'
+import SideBar from '../components/menu/SideBar';
+import { useRouter } from 'next/navigation';
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -39,31 +42,40 @@ const Header = () => {
         <div className="flex items-center space-x-6">
           {/* Menu Navigasi untuk Web */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link href="/">
+            <a href={'/'}>
               <span className="text-gray-900 hover:text-gray-600 hover:border-b-2 border-gray-300 sm:ml-12">All Reviews</span>
-            </Link>
-            <Link href="/?category=Books">
+            </a>
+            
+            {/* Ganti button dengan <a> */}
+            <a href='/?category=Books'>
               <span className="text-gray-900 hover:text-gray-600 hover:border-b-2 border-gray-300">Books</span>
-            </Link>
-            <Link href="/?category=Comics">
+            </a>
+            
+            <a href='/?category=Comics'>
               <span className="text-gray-900 hover:text-gray-600 hover:border-b-2 border-gray-300">Comics</span>
-            </Link>
-            <Link href="/?category=Films">
+            </a>
+            
+            <a href='/?category=Films'>
               <span className="text-gray-900 hover:text-gray-600 hover:border-b-2 border-gray-300">Films</span>
-            </Link>
-            <Link href="/?category=Animation">
+            </a>
+            
+            <a href='/?category=Animation'>
               <span className="text-gray-900 hover:text-gray-600 hover:border-b-2 border-gray-300">Animations</span>
-            </Link>
-            <Link href="/?category=Documentation">
+            </a>
+            
+            <a href='/?category=Documentation'>
               <span className="text-gray-900 hover:text-gray-600 hover:border-b-2 border-gray-300">Tech Documentation</span>
-            </Link>
-            <Link href="/?category=Others">
+            </a>
+            
+            <a href='/?category=Others'>
               <span className="text-gray-900 hover:text-gray-600 hover:border-b-2 border-gray-300">Others</span>
-            </Link>
-            <Link href="/#">
+            </a>
+            
+            <Link href={'#'}>
               <span className="text-gray-900 hover:text-gray-600 hover:border-b-2 border-gray-300">About</span>
             </Link>
-            <Link href="/Contact">
+            
+            <Link href={'#'}>
               <span className="text-gray-900 hover:text-gray-600 hover:border-b-2 border-gray-300">Contact</span>
             </Link>
           </div>
