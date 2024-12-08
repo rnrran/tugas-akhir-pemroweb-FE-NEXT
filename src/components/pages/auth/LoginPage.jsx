@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { AuthContext } from '../../../context/AuthContext';
 
 const LoginPage = () => {
-  const { dispatch } = useContext(AuthContext);  // Memastikan penggunaan dispatch yang benar
+  const { dispatch } = useContext(AuthContext); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');

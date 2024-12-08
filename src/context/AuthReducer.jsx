@@ -1,10 +1,9 @@
-// src/context/AuthReducer.js
 const AuthReducer = (state, action) => {
     switch (action.type) {
-      case 'LOGIN':
+      case 'SET_USER':
         return {
+          ...state,
           currentUser: action.payload,
-          userToken: action.payload.token,  // Menyimpan token dalam state
         };
       case 'LOGOUT':
         return {
@@ -16,5 +15,5 @@ const AuthReducer = (state, action) => {
     }
   };
   
-  export default AuthReducer;  // Pastikan diekspor dengan default
+  export default AuthReducer;
   

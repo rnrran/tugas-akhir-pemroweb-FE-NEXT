@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useReducer, useEffect, useState } from 'react';
-import AuthReducer from './AuthReducer';  
+import AuthReducer from './AuthReducer';
 
 const INITIAL_STATE = {
   currentUser: JSON.parse(localStorage.getItem('user')) || null,
@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 export const AuthContext = createContext(INITIAL_STATE);
 
 export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE); 
+  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -28,22 +28,27 @@ export const AuthContextProvider = ({ children }) => {
       localStorage.removeItem('user_token');
     }
   }, [state]);
-
-  // Fetch user data setelah login berhasil
+  
+  // Fetch current user data setelah login berhasil dan token ada
   useEffect(() => {
     const fetchUser = async () => {
-      if (state.currentUser && state.userToken) {
+      if (state.userToken) {
         try {
-          const response = await fetch('http://localhost:8000/api/user', {
+          const response = await fetch('http://localhost:8000/api/current-user', {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${state.userToken}`,
               'Accept': 'application/json',
             },
           });
-          const data = await response.json();
+          const userData = await response.json();
           if (response.ok) {
-            setData(data);
+            // Menyimpan data user ke state
+            dispatch({
+              type: 'SET_USER',
+              payload: userData,
+            });
+            setData(userData); // Mengupdate data user
           } else {
             console.error('Error fetching user data');
           }
@@ -54,7 +59,7 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     fetchUser();
-  }, [state.currentUser, state.userToken]);
+  }, [state.userToken, dispatch]);
 
   return (
     <AuthContext.Provider value={{ currentUser: state.currentUser, dispatch, userData: data }}>
@@ -62,4 +67,3 @@ export const AuthContextProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
