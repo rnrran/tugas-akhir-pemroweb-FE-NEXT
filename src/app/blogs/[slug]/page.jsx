@@ -7,9 +7,9 @@ import remarkGfm from 'remark-gfm'
 import remarkHtml from 'remark-html' 
 import rehypeRaw from 'rehype-raw' 
 import { AuthContext } from '../../../context/AuthContext'
+import './BlogContent.css'
 
-
-const BlogPage = ({ params }) => {
+const BlogPage = ({ params, content }) => {
   const { slug } = React.use(params) 
   const [blog, setBlog] = useState(null)
   const [previousBlogSlug, setPreviousBlogSlug] = useState(null)
@@ -121,6 +121,15 @@ const BlogPage = ({ params }) => {
             children={blog.content} 
             remarkPlugins={[remarkGfm, remarkHtml]} 
             rehypePlugins={[rehypeRaw]} 
+            components={{
+              blockquote: ({node, ...props}) => (
+                <blockquote className="custom-blockquote" {...props} />
+              ),
+              p: ({node, ...props}) => (
+                <p className="custom-paragraph" {...props} />
+              ),
+            }}
+            // dangerouslySetInnerHTML={{ __html: content }} 
           />
           {/* <div
             dangerouslySetInnerHTML={{ __html: blog.content }}

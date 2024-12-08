@@ -19,3 +19,11 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* .markdown-content blockquote {
+  margin-left: 30px;
+  font-style: italic;
+  border-left: 4px solid #ccc;
+  padding-left: 20px;
+  color: #555;
+} */
