@@ -18,11 +18,11 @@ const ProfilePage = () => {
 //   }, [currentUser, router]);
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold">Profile</h1>
+    <div className="container mx-auto p-6 mt-10 border-2 border-gray-200 shadow-xl">
+      <h1 className="text-5xl font-serif text-center font-bold mb-3">Profoal</h1>
       {error && <div className="text-red-500 mt-4">{error}</div>}
       {currentUser ? (
-        <ProfileForm currentUser={currentUser} />
+        <ProfileForm currentUser={currentUser}/>
       ) : (
         <div className="mt-4">Loading...</div>
       )}
