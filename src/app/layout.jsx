@@ -18,6 +18,7 @@ function InnerLayout({ children }) {
   const path = usePathname();
   const { push } = useRouter();
   const { currentUser, userData } = useContext(AuthContext);
+  console.log(userData)
 
   const isAuthenticated = currentUser ? true : false;
   // console.log(userData, "budi")
@@ -28,7 +29,7 @@ function InnerLayout({ children }) {
       push('/');
     }
     // Jika belum login, alihkan ke /login
-    if (!isAuthenticated && path == '/profile') {
+    if (!isAuthenticated && path == '/profile' || !isAuthenticated && path == '/write') {
       push('/');
     }
   }, [isAuthenticated, path, push]);
