@@ -22,7 +22,7 @@ const ProfilePage = () => {
       <h1 className="text-3xl font-bold">Profile</h1>
       {error && <div className="text-red-500 mt-4">{error}</div>}
       {currentUser ? (
-        <ProfileForm currentUser={currentUser} token={userToken} />
+        <ProfileForm currentUser={currentUser} />
       ) : (
         <div className="mt-4">Loading...</div>
       )}

@@ -19,7 +19,7 @@ export const AuthContextProvider = ({ children }) => {
     console.log('State changed:', state);
 
     if (state.currentUser) {
-      console.log('Saving currentUser to localStorage:', state.currentUser);
+    //   console.log('Saving currentUser to localStorage:', state.currentUser);
       localStorage.setItem('user', JSON.stringify(state.currentUser));
     } else {
       console.log('Removing currentUser from localStorage');
@@ -48,7 +48,7 @@ export const AuthContextProvider = ({ children }) => {
           });
           const userData = await response.json();
           if (response.ok) {
-            console.log('Fetched user data:', userData);
+            // console.log('Fetched user data:', userData);
             dispatch({
               type: 'SET_USER',
               payload: userData, 

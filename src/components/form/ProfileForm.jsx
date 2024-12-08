@@ -1,29 +1,52 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { AuthContext } from '../../context/AuthContext';  
 
-const ProfileForm = ({ currentUser, token }) => {
-  const [name, setName] = useState(currentUser.name || '');
-  const [email, setEmail] = useState(currentUser.email || '');
+const ProfileForm = ( {currentUser} ) => {
+  // Ambil data user dan token dari AuthContext
+  const { userData } = useContext(AuthContext);
+  const userToken = currentUser?.token
+  console.log(userToken, "current")
+  const [name, setName] = useState(userData?.name || '');  
+  const [email, setEmail] = useState(userData?.email || '');  
   const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState(''); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  useEffect(() => {
+    if (userData) {
+      setName(userData.name || ''); 
+      setEmail(userData.email || '');  
+    }
+  }, [userData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setPasswordError('');
+
+    // Validasi konfirmasi password
+    if (password && password !== passwordConfirmation) {
+      setPasswordError('Password dan konfirmasi password tidak cocok');
+      setLoading(false);
+      return;
+    }
 
     const updatedData = { name, email };
     if (password) {
       updatedData.password = password;
+      updatedData.password_confirmation = passwordConfirmation;
     }
 
     try {
       const response = await fetch('http://localhost:8000/api/user', {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${userToken}`,
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
@@ -34,6 +57,8 @@ const ProfileForm = ({ currentUser, token }) => {
 
       if (response.ok) {
         alert('Profile updated successfully');
+        location.reload();
+
       } else {
         setError(data.message || 'Failed to update profile');
       }
@@ -52,7 +77,7 @@ const ProfileForm = ({ currentUser, token }) => {
         <input
           type="text"
           id="name"
-          value={name}
+          value={name || ''}  // Pastikan nilai value tidak undefined
           onChange={(e) => setName(e.target.value)}
           className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Enter your name"
@@ -64,7 +89,7 @@ const ProfileForm = ({ currentUser, token }) => {
         <input
           type="email"
           id="email"
-          value={email}
+          value={email || ''}  // Pastikan nilai value tidak undefined
           onChange={(e) => setEmail(e.target.value)}
           className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Enter your email"
@@ -76,12 +101,30 @@ const ProfileForm = ({ currentUser, token }) => {
         <input
           type="password"
           id="password"
-          value={password}
+          value={password || ''}  // Pastikan nilai value tidak undefined
           onChange={(e) => setPassword(e.target.value)}
           className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Enter new password (optional)"
         />
       </div>
+
+      <div>
+        <label htmlFor="passwordConfirmation" className="block text-sm font-semibold text-gray-600">Confirm Password</label>
+        <input
+          type="password"
+          id="passwordConfirmation"
+          value={passwordConfirmation || ''}  
+          onChange={(e) => setPasswordConfirmation(e.target.value)}
+          className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Confirm new password"
+        />
+      </div>
+
+      {passwordError && (
+        <div className="bg-red-100 text-red-800 p-4 mb-4 rounded">
+          <strong>Error:</strong> {passwordError}
+        </div>
+      )}
 
       {error && (
         <div className="bg-red-100 text-red-800 p-4 mb-4 rounded">
