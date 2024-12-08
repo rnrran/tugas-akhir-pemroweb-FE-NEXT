@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useReducer, useEffect, useState } from 'react';
-import AuthReducer from './AuthReducer';  
+import AuthReducer from './AuthReducer';
 
 const INITIAL_STATE = {
   currentUser: JSON.parse(localStorage.getItem('user')) || null,
@@ -11,39 +11,49 @@ const INITIAL_STATE = {
 export const AuthContext = createContext(INITIAL_STATE);
 
 export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE); 
+  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
   const [data, setData] = useState({});
 
+  // Memantau perubahan state.currentUser dan state.userToken
   useEffect(() => {
-    // Simpan currentUser ke localStorage saat ada perubahan
+    console.log('State changed:', state);
+
     if (state.currentUser) {
+      console.log('Saving currentUser to localStorage:', state.currentUser);
       localStorage.setItem('user', JSON.stringify(state.currentUser));
     } else {
+      console.log('Removing currentUser from localStorage');
       localStorage.removeItem('user');
     }
 
     if (state.userToken) {
+      console.log('Saving userToken to localStorage:', state.userToken);
       localStorage.setItem('user_token', state.userToken);
     } else {
+      console.log('Removing userToken from localStorage');
       localStorage.removeItem('user_token');
     }
-  }, [state]);
+  }, [state.currentUser, state.userToken]);
 
-  // Fetch user data setelah login berhasil
   useEffect(() => {
     const fetchUser = async () => {
-      if (state.currentUser && state.userToken) {
+      if (state.userToken) {
         try {
-          const response = await fetch('http://localhost:8000/api/user', {
+          const response = await fetch('http://localhost:8000/api/current-user', {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${state.userToken}`,
               'Accept': 'application/json',
             },
           });
-          const data = await response.json();
+          const userData = await response.json();
           if (response.ok) {
-            setData(data);
+            console.log('Fetched user data:', userData);
+            dispatch({
+              type: 'SET_USER',
+              payload: userData, 
+            });
+            setData(userData); 
           } else {
             console.error('Error fetching user data');
           }
@@ -54,12 +64,12 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     fetchUser();
-  }, [state.currentUser, state.userToken]);
+  }, [state.userToken, dispatch]); // Ketika token berubah, fetch ulang data user
 
   return (
+    // current user = token, userData = profil
     <AuthContext.Provider value={{ currentUser: state.currentUser, dispatch, userData: data }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
