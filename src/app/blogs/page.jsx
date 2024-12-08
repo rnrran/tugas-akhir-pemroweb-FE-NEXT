@@ -1,5 +1,5 @@
 'use client'
-import BlogList from '../components/blogs/BlogList'
+import BlogList from '../../components/blogs/BlogList'
 
 const BlogsPage = () => {
   return (

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import Link from 'next/link'; 
 
 const BlogsList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -67,7 +67,7 @@ const BlogsList = () => {
       <h1 className="text-5xl underline font-thin font-serif text-center my-8">Blog List</h1>
 
       {/* Filter Kategori */}
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <select 
           value={selectedCategory}
           onChange={handleCategoryChange}
@@ -78,7 +78,7 @@ const BlogsList = () => {
             <option key={idx} value={category}>{category}</option>
           ))}
         </select>
-      </div>
+      </div> */}
 
       {/* Menampilkan Daftar Blog */}
       {filteredBlogs.length > 0 ? (
