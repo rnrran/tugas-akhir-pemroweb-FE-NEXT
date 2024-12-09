@@ -45,7 +45,8 @@ const SideBar = ({ toggleMenu }) => {
             await Swal.fire({
                 title: 'logout sukses!',
                 text: 'dadah.',
-                icon: 'success',
+                // icon: 'success',
+                imageUrl: '/resources/images/logout.gif',
                 confirmButtonText: 'OK',
               });
 
