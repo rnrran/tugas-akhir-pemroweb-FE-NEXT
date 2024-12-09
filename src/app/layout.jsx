@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { AuthContext, AuthContextProvider } from '../context/AuthContext';
 import { ModeProvider } from '../context/ModeContext';
+import Swal from 'sweetalert2';
 
 export default function RootLayout({ children }) {
   return (
@@ -22,20 +23,43 @@ function InnerLayout({ children }) {
   const { push } = useRouter();
   const { currentUser, userData } = useContext(AuthContext);
   console.log(userData)
+  const role = userData.role
 
   const isAuthenticated = currentUser ? true : false;
   // console.log(userData, "budi")
+  console.log("data", userData)
 
   // path restriction
   useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
     if (isAuthenticated && (path === '/login' || path === '/register')) {
       push('/');
     }
     // Jika belum login, alihkan ke /login
-    if (!isAuthenticated && path == '/profile' || !isAuthenticated && path == '/write') {
+    if (!isAuthenticated && path === '/profile' || !isAuthenticated && path === '/write'
+        || !isAuthenticated && path.startsWith('/blogs/edit')
+    ) {
+      Swal.fire({
+        title: 'Akses Ditolak',
+        text: 'Kamu belum login!',
+        // icon: '',
+        imageUrl: '/resources/images/logout.gif'
+      })
       push('/');
     }
-  }, [isAuthenticated, path, push]);
+    console.log("role",role)
+    if ( role !== 'admin' && (path.startsWith('/blogs/edit')) ){
+      Swal.fire({
+        title: 'Akses Ditolak',
+        text: 'Kamu tidak mempunyai izin edit!',
+        // icon: '',
+        imageUrl: '/resources/images/logout.gif'
+      })
+      push('/');
+    }
+  }, [isAuthenticated, path, push, role]);
 
   return (
     <>

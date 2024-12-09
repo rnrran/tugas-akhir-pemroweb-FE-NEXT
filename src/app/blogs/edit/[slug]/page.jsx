@@ -12,10 +12,12 @@ const EditBlog = ({ params }) => {
   const [description, setDescription] = useState('');
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  const {currentUser, userData} = useContext(AuthContext);
-  const {userRole, setUserRole} = useState('')
+  const {userData} = useContext(AuthContext);
+  // const {userRole, setUserRole} = useState('')
   // const [blogID, setBlogID] = useState('');
   const router = useRouter();
+  const role = userData?.role
+  const userID = userData?.id
 
 
   // Fetch blog data based on slug
@@ -31,23 +33,22 @@ const EditBlog = ({ params }) => {
       const data = await res.json();
       // setUserRole(userData?.role)
       // Cek apakah user yang sedang login adalah admin atau author dari blog ini
-      setBlog(data);
-      console.log("haha:",data?.user_id)
-      // if (userData?.role == 'admin' || data?.user_id == userData?.id) {
-          // setBlogID(data?.id);
+      // console.log("haha:",data?.user_id)
+      // if (role == 'admin' || data?.user_id == userID) {
+        setBlog(data);
         setTitle(data.title);
         setContent(data.content);
         setCategoryId(data.category_id);
         setDescription(data.description);
       // }
       // else {
-        Swal.fire({
-          title: 'Akses Ditolak',
-          text: 'Kamu bukan admin atau author dari tulisan ini!',
-          icon: 'error',
-        });
-        router.push('/blogs'); // Redirect jika akses tidak diperbolehkan
-        return; // Keluar dari fungsi jika akses ditolak
+      //   Swal.fire({
+      //     title: 'Akses Ditolak',
+      //     text: 'Kamu bukan admin atau author dari tulisan ini!',
+      //     icon: 'error',
+      //   });
+      //   router.push('/blogs'); 
+      //   return; 
       // }
       
     } catch (error) {
