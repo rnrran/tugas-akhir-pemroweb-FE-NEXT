@@ -166,7 +166,7 @@ const WriteBlog = () => {
             onChange={(e) => setCategoryId(e.target.value)}
             className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
-            <option value="">Select a category</option>
+            <option value="">Pilih Kategori</option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
