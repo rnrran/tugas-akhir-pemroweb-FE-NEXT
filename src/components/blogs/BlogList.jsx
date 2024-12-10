@@ -20,7 +20,6 @@ const BlogsList = () => {
         const res = await fetch('http://localhost:8000/api/blogs');
         const data = await res.json();
 
-        // Urutkan blog berdasarkan created_at (terbaru ke lama)
         const sortedBlogs = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
         setBlogs(sortedBlogs);

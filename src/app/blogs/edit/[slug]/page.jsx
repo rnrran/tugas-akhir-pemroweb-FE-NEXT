@@ -120,14 +120,14 @@ const EditBlog = ({ params }) => {
           if (res.ok) {
             await Swal.fire({
               title: 'Blog Updated!',
-              text: 'Your blog has been updated successfully.',
+              text: 'blog berhasil diupdate.',
               icon: 'success',
             });
             router.push(`/blogs/${data?.id}`);
           } else {
             Swal.fire({
               title: 'Error',
-              text: data.message || 'Failed to update blog.',
+              text: data.message || 'gagal memperbarui blog.',
               icon: 'error',
             });
           }
@@ -135,7 +135,7 @@ const EditBlog = ({ params }) => {
           console.error('Error updating blog:', error);
           Swal.fire({
             title: 'Error',
-            text: 'Something went wrong while updating the blog.',
+            text: 'Terjadi masalah ketika memperbarui blog.',
             icon: 'error',
           });
         } finally {
