@@ -42,7 +42,7 @@ const BlogsList = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const category = queryParams.get('category');
     if (category) {
-      setSelectedCategory(category); // Setel selectedCategory dari query parameter
+      setSelectedCategory(category); 
     }
   }, []);
 
@@ -63,9 +63,9 @@ const BlogsList = () => {
     // Update query string pada URL dengan kategori yang dipilih
     const queryParams = new URLSearchParams(window.location.search);
     if (category) {
-      queryParams.set('category', category); // Set query parameter 'category'
+      queryParams.set('category', category); 
     } else {
-      queryParams.delete('category'); // Hapus query parameter jika tidak ada kategori
+      queryParams.delete('category'); 
     }
     window.history.replaceState(null, '', `?${queryParams.toString()}`);
   };
@@ -140,9 +140,9 @@ const BlogsList = () => {
             <div key={blog.id} className="flex items-center bg-white shadow-md rounded-lg overflow-hidden p-6">
               <div className="h-36 w-20 sm:h-48 sm:w-27 lg:w-72 lg:h-96 relative mr-6">
                 <img 
-                  src="https://via.placeholder.com/150" 
+                  src="/resources/images/hahaha.png" 
                   alt="Blog Image" 
-                  className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                  className="absolute inset-0 w-full h-full object-cover rounded-none"
                 />
               </div>
 

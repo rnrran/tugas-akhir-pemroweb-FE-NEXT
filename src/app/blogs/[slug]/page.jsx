@@ -19,7 +19,6 @@ const BlogPage = ({ params, content }) => {
   const router = useRouter()
   const { userData, currentUser } = useContext(AuthContext)
 
-  // Mengambil blog berdasarkan slug
   useEffect(() => {
     if (slug) {
       fetchBlog(slug)
@@ -31,7 +30,6 @@ const BlogPage = ({ params, content }) => {
       const response = await fetch(`http://localhost:8000/api/blogs/${slug}`)
       const data = await response.json()
       setBlog(data)
-      // Tentukan slug untuk post sebelumnya dan berikutnya
       setPreviousBlogSlug((parseInt(slug) - 1).toString())  
       setNextBlogSlug((parseInt(slug) + 1).toString()) 
     } catch (error) {
@@ -44,8 +42,8 @@ const BlogPage = ({ params, content }) => {
     e.preventDefault();
     if (newComment.trim() === '') return;
   
-    const token = localStorage.getItem('user_token'); // Pastikan currentUser berisi token yang valid
-    const userId = userData?.id; // Pastikan userData.id tersedia
+    const token = localStorage.getItem('user_token'); 
+    const userId = userData?.id; 
   
     const commentData = {
       content: newComment,
@@ -98,7 +96,6 @@ const BlogPage = ({ params, content }) => {
   
   console.log('blog',userData )
 
-  // Cek status login pengguna (dummy untuk sementara)
   useEffect(() => {
     setIsLoggedIn(!!localStorage.getItem('user_token'))
   }, [])
@@ -118,6 +115,15 @@ const BlogPage = ({ params, content }) => {
           <div className='font-light font-sans my-5 mb-3 pl-2 italic'>
             "{blog?.description}"
           </div>
+          <div className='flex justify-center'>
+            <img 
+              src="/resources/images/heheheha.png" 
+              alt="Blog Image" 
+              className="w-8/12 h-1/5 object-cover rounded-none mb-6 "
+            />
+          </div>
+
+
           <ReactMarkdown 
             className={'pl-2 font-light font-sans mt-5 container mx-auto'}
             children={blog.content} 
