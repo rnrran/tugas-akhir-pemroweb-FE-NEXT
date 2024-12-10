@@ -14,7 +14,6 @@ const WriteBlog = () => {
   // console.log(userData.id,"curr")
 
 
-  // Ambil kategori dari API
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -130,7 +129,7 @@ const WriteBlog = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter your blog title"
+            placeholder="Masukan Judul"
           />
         </div>
 
@@ -142,7 +141,7 @@ const WriteBlog = () => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Write your blog content"
+            placeholder="Tulis konten"
           />
         </div>
 
@@ -154,7 +153,7 @@ const WriteBlog = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Short description of your blog"
+            placeholder="Deskripsi disini"
           />
         </div>
 
@@ -183,7 +182,7 @@ const WriteBlog = () => {
             className="w-full py-3 bg-blue-600 text-white rounded-md"
             disabled={loading}
           >
-            {loading ? 'Submitting...' : 'Submit Blog'}
+            {loading ? 'tunggu...' : 'Publish'}
           </button>
         </div>
       </form>
