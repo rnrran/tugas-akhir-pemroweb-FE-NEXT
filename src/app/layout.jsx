@@ -50,15 +50,15 @@ function InnerLayout({ children }) {
       push('/');
     }
     console.log("role",role)
-    if ( role !== 'admin' && (path.startsWith('/blogs/edit')) ){
-      Swal.fire({
-        title: 'Akses Ditolak',
-        text: 'Kamu tidak mempunyai izin edit!',
-        // icon: '',
-        imageUrl: '/resources/images/logout.gif'
-      })
-      push('/');
-    }
+    // if ( role !== 'admin' && (path.startsWith('/blogs/edit')) ){
+    //   Swal.fire({
+    //     title: 'Akses Ditolak',
+    //     text: 'Kamu tidak mempunyai izin edit!',
+    //     // icon: '',
+    //     imageUrl: '/resources/images/logout.gif'
+    //   })
+    //   push('/');
+    // }
   }, [isAuthenticated, path, push, role]);
 
   return (

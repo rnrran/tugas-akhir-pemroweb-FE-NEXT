@@ -74,7 +74,9 @@ const BlogPage = ({ params, content }) => {
           text: 'Komentar Anda telah berhasil dikirim.',
           icon: 'success',
         });
-        location.reload()
+        // location.reload()
+        router.push('')
+        return
       } else {
         // Tangani jika server mengembalikan status error (misal 401, 403, dsb)
         const data = await response.json();
@@ -145,7 +147,8 @@ const BlogPage = ({ params, content }) => {
       {/* Menampilkan Komentar */}
       {blog?.comments?.length > 0 && (
         <div className="mt-8 bg-white p-6 shadow-md rounded-lg">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Comments</h3>
+        <h3 className="text-2xl font-bold text-gray-800 mb-4">Comments</h3>
+        <div className="max-h-56 overflow-y-auto"> {/* Membatasi tinggi dan menambahkan scroll */}
           {blog.comments.map((comment) => (
             <div key={comment.id} className="mb-4">
               <div className="text-gray-800 font-semibold">{comment.user?.name}</div>
@@ -156,6 +159,7 @@ const BlogPage = ({ params, content }) => {
             </div>
           ))}
         </div>
+      </div>
       )}
 
       {/* Jika tidak ada komentar */}
