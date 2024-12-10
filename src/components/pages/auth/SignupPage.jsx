@@ -13,7 +13,6 @@ const SignupPage = () => {
   const [error, setError] = useState('')
   const router = useRouter()
 
-  // Fungsi signup
   const signup = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -67,7 +66,6 @@ const SignupPage = () => {
         )}
 
         <form onSubmit={signup} className="space-y-6">
-          {/* Nama */}
           <div>
             <label htmlFor="name" className="block text-sm font-semibold text-gray-600">Nama</label>
             <input
@@ -81,7 +79,6 @@ const SignupPage = () => {
             />
           </div>
 
-          {/* Email */}
           <div>
             <label htmlFor="email" className="block text-sm font-semibold text-gray-600">Email</label>
             <input
@@ -95,7 +92,6 @@ const SignupPage = () => {
             />
           </div>
 
-          {/* Password */}
           <div>
             <label htmlFor="password" className="block text-sm font-semibold text-gray-600">Password</label>
             <input
@@ -109,7 +105,6 @@ const SignupPage = () => {
             />
           </div>
 
-          {/* Confirm Password */}
           <div>
             <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-600">Confirm Password</label>
             <input
