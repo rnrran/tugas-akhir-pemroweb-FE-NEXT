@@ -85,8 +85,8 @@ const WriteBlog = () => {
           setDescription('');
           setCategoryId('');
           Swal.fire({
-            title: 'Success!',
-            text: 'Your blog has been submitted.',
+            title: 'Sukses!',
+            text: 'Tulisan kamu terpublish.',
             icon: 'success',
           });
         } else {

@@ -10,7 +10,7 @@ const BlogsList = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 10;
   const [totalPages, setTotalPages] = useState(0);
   const { isEditMode, toggleEditMode } = useMode();  
 
@@ -116,7 +116,7 @@ const BlogsList = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-5xl underline font-thin font-serif text-center my-8">Blog List</h1>
+      <h1 className="text-5xl underline font-thin font-serif text-center my-8">WgEo-WgEo</h1>
 
       {/* Filter Kategori */}
       {/* <div className="mb-6">
