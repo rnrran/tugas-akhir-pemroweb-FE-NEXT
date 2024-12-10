@@ -32,12 +32,12 @@ const LoginPage = () => {
       });
 
       const data = await response.json();
-      console.log('API Response:', data); // Log respons server untuk memeriksa isi data
+      console.log('API Response:', data); 
 
       if (response.ok) {
         dispatch({
           type: 'LOGIN',
-          payload: { token: data.token },  // Pastikan payload yang benar dikirim
+          payload: { token: data.token },  
         });
 
         await Swal.fire({
