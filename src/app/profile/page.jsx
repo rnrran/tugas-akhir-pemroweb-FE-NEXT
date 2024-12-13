@@ -19,7 +19,7 @@ const ProfilePage = () => {
 
   return (
     <div className="container mx-auto p-6 mt-10 border-2 border-gray-200 shadow-xl">
-      <h1 className="text-5xl font-serif text-center font-bold mb-3">Profoal</h1>
+      <h1 className="text-5xl font-serif text-center font-bold mb-3">Profil</h1>
       {error && <div className="text-red-500 mt-4">{error}</div>}
       {currentUser ? (
         <ProfileForm currentUser={currentUser}/>

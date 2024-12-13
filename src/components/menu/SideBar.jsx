@@ -79,7 +79,7 @@ const SideBar = ({ toggleMenu }) => {
 
             <Link href="/" className='flex justify-center'>
                 <div className="block text-black font-semibold hover:text-green-600 font-serif text-4xl mb-4">
-                    Mierda
+                    Menu
                 </div>
             </Link>
           <div className="max-h-[80vh] overflow-y-auto">

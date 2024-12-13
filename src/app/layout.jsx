@@ -26,20 +26,18 @@ function InnerLayout({ children }) {
   const role = userData.role
 
   const isAuthenticated = currentUser ? true : false;
-  // console.log(userData, "budi")
   console.log("data", userData)
+  // console.log(isAuthenticated, "budi")
 
   // path restriction
   useEffect(() => {
-    if (!currentUser) {
-      return;
-    }
     if (isAuthenticated && (path === '/login' || path === '/register')) {
       push('/');
     }
+    console.log("user sekaranga: ", userData)
     // Jika belum login, alihkan ke /login
-    if (!isAuthenticated && path === '/profile' || !isAuthenticated && path === '/write'
-        || !isAuthenticated && path.startsWith('/blogs/edit')
+    if (!isAuthenticated && (path === '/profile' || path === '/write'
+        || path.startsWith('/blogs/edit'))
     ) {
       Swal.fire({
         title: 'Akses Ditolak',

@@ -111,7 +111,7 @@ const WriteBlog = () => {
 
   return (
     <div className="container mx-auto p-6 mt-10 border-2 border-gray-200 shadow-xl">
-      <h1 className="text-5xl font-serif text-center font-bold mb-3">Tlis Blog</h1>
+      <h1 className="text-5xl font-serif text-center font-bold mb-3">Tulis Blog</h1>
 
       {error && (
         <div className="bg-red-100 text-red-800 p-4 mb-4 rounded">

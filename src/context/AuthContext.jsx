@@ -14,7 +14,6 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
   const [data, setData] = useState({});
 
-  // Memantau perubahan state.currentUser dan state.userToken
   useEffect(() => {
     // console.log('State changed:', state);
 
@@ -64,7 +63,7 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     fetchUser();
-  }, [state.userToken, dispatch]); // Ketika token berubah, fetch ulang data user
+  }, [state.userToken, dispatch]);
 
   return (
     // current user = token, userData = profil

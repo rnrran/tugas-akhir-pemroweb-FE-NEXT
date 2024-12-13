@@ -29,7 +29,7 @@ const ProfileForm = ({ currentUser }) => {
     setError('');
     setPasswordError('');
 
-    // Validasi konfirmasi password
+    
     if (password && password !== passwordConfirmation) {
       setPasswordError('Password dan konfirmasi password tidak cocok');
       setLoading(false);
@@ -109,7 +109,7 @@ const ProfileForm = ({ currentUser }) => {
         <input
           type="email"
           id="email"
-          value={email || ''}  // Pastikan nilai value tidak undefined
+          value={email || ''}  
           onChange={(e) => setEmail(e.target.value)}
           className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Enter your email"
@@ -121,7 +121,7 @@ const ProfileForm = ({ currentUser }) => {
         <input
           type="password"
           id="password"
-          value={password || ''}  // Pastikan nilai value tidak undefined
+          value={password || ''}  
           onChange={(e) => setPassword(e.target.value)}
           className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Enter new password (optional)"

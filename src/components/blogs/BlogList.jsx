@@ -55,19 +55,19 @@ const BlogsList = () => {
 
   const paginatedBlogs = filteredBlogs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  const handleCategoryChange = (e) => {
-    const category = e.target.value;
-    setSelectedCategory(category);
+  // const handleCategoryChange = (e) => {
+  //   const category = e.target.value;
+  //   setSelectedCategory(category);
 
-    // Update query string pada URL dengan kategori yang dipilih
-    const queryParams = new URLSearchParams(window.location.search);
-    if (category) {
-      queryParams.set('category', category); 
-    } else {
-      queryParams.delete('category'); 
-    }
-    window.history.replaceState(null, '', `?${queryParams.toString()}`);
-  };
+  //   // Update query string pada URL dengan kategori yang dipilih
+  //   const queryParams = new URLSearchParams(window.location.search);
+  //   if (category) {
+  //     queryParams.set('category', category); 
+  //   } else {
+  //     queryParams.delete('category'); 
+  //   }
+  //   window.history.replaceState(null, '', `?${queryParams.toString()}`);
+  // };
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
@@ -132,7 +132,6 @@ const BlogsList = () => {
         </select>
       </div> */}
 
-      {/* Menampilkan Daftar Blog */}
       {filteredBlogs.length > 0 ? (
         <div className="space-y-6">
           {paginatedBlogs.map((blog) => (
@@ -180,7 +179,6 @@ const BlogsList = () => {
         </div>
       ) : (
         <div className="text-center text-gray-500">
-          <p>No blog available at the moment.</p>
         </div>
       )}
 
